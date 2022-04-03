@@ -49,6 +49,12 @@ def signup( request ):
 
 @csrf_exempt
 def login( request ):
+    ###### 그냥 임시로 구현 - 첫 페이지에 현재까지 눌러진 좋아요 수 표현
+    if request.method == 'GET' :
+        like_count = Testresult.objects.filter(like=1)
+        like_count = { 'like_count' : len(like_count) }
+        return JsonResponse(like_count, status=200)
+        
     if request.method == "POST":
         data = JSONParser().parse(request)
         data = data['user']
