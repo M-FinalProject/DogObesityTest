@@ -51,8 +51,9 @@ def signup( request ):
 def login( request ):
     ###### 그냥 임시로 구현 - 첫 페이지에 현재까지 눌러진 좋아요 수 표현
     if request.method == 'GET' :
+        total_count = Testresult.objects.all()
         like_count = Testresult.objects.filter(like=1)
-        like_count = { 'like_count' : len(like_count) }
+        like_count = { 'total_count' : len(total_count) ,'like_count' : len(like_count) }
         return JsonResponse(like_count, status=200)
         
     if request.method == "POST":
