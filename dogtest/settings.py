@@ -65,14 +65,10 @@ REST_FRAMEWORK = {
 MEDIA_URL = "/Image/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "Image").replace('\\',"/")
 
-SECURE_REFERRER_POLICY = None
-
-CORS_ALLOEWD_ORIGINS = [
-        "http://35.76.37.170:80"
-]
-
-
 MIDDLEWARE = [
+    ## cors 에러 관련 코드 추가 
+    'corsheaders.middleware.CorsMiddleware',
+    ## 기존
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -80,9 +76,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    'http://35.76.37.170',
+    'http://35.76.37.170:80',  
+
+)
 
 ROOT_URLCONF = 'dogtest.urls'
 

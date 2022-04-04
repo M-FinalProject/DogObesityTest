@@ -66,6 +66,20 @@ import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from PIL import Image
 
+def trim(image):
+    h, w = image.shape[0], image.shape[1]
+    # The center of a image
+    X, Y = int(w/2), int(h/2)
+
+    if w > h :    # 폭 > 높이 : 가로 방향
+        img_trim = image[ : ,  X-int(h/2) : X+int(h/2)  ]
+    elif w < h :  # 폭 < 높이 : 세로 방향
+        img_trim = image[  Y-int(w/2) : Y+int(w/2)  , : ]
+    else :        # 폭 = 높이 : 정방형
+        img_trim = image
+    
+    return img_trim 
+
 
 def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu") # device 객체
@@ -91,7 +105,7 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
                         [-1, 5,-1],
                         [0, -1, 0]])
         image_sharp = cv2.filter2D(image_yuv, -1, kernel)
-        
+
     cv2.imwrite(f'{image_path}/{img_name}', image_sharp)
 
     ## test 전처리 
