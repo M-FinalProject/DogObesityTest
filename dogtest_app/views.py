@@ -101,13 +101,13 @@ def imageupload( request ):
             'Beagle' : '',
             'Maltese' : '',
             'Retriever' : 'ret_set5_B_9_1.pth',
-            'Dachshund' : ''
+            'Dachshund' : 'dac_set9_b9_2.pth'
         }
         
         if dog_breed in ['Welsh Corgi'] :
             testresult = img_predict_keras(dog_breed, dog_model[dog_breed],decode_img, img_name)
             testresult = {'testresult' : testresult}
-        elif dog_breed in ['Retriever'] :
+        elif dog_breed in ['Retriever', 'Dachshund'] :
             testresult = img_predict_torch(dog_breed, dog_model[dog_breed],decode_img,img_name)
             testresult = {'testresult' : testresult}
 
