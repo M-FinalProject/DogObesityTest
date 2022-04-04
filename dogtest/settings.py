@@ -65,6 +65,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "Image").replace('\\',"/")
 
 SECURE_REFERRER_POLICY = None
 
+CORS_ALLOEWD_ORIGINS = [
+        "http://35.76.37.170:80"
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
