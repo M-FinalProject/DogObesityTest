@@ -63,6 +63,9 @@ REST_FRAMEWORK = {
 MEDIA_URL = "/Image/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "Image").replace('\\',"/")
 
+SECURE_REFERRER_POLICY = None
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
