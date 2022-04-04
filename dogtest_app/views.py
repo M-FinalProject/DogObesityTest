@@ -100,7 +100,7 @@ def imageupload( request ):
             'Welsh Corgi' : 'corgi_model_4.h5',
             'Beagle' : '',
             'Maltese' : '',
-            'Retriever' : 'ret_set1_L6.pth',
+            'Retriever' : 'ret_set5_B_9_1.pth',
             'Dachshund' : ''
         }
         
