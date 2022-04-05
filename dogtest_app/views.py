@@ -71,7 +71,7 @@ def login( request ):
             return HttpResponse( status=400 )
 
 
-## base형식으로 받아온 이미지 데이터를 다시 디코딩하는 함수 
+## base형식으로 받아온 이미지 데이터를 다시 디코딩하는 함수    
 def stringToRGB(base64_string):
     imgdata = base64.b64decode(base64_string)
     dataBytesIO = io.BytesIO(imgdata)
@@ -86,7 +86,7 @@ def imageupload( request ):
 
         userid = request_data['userid']
         img_base64 = request_data['image']
-        dog_breed = request_data['dogbreed']
+        dog_breed = request_data['dog_breed'] 
         # print(img_data, dog_breed)    
 
         ### base형식으로 받아온 이미지파일을 이미지의 색 정보를 나타내는 np.array 형태로 다시 디코딩
