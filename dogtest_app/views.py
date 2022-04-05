@@ -123,7 +123,7 @@ def imageupload( request ):
         # print(serializer.is_valid())
         if serializer.is_valid():
             serializer.save()
-            # return render( request, 'testresult', status=201)
+            # return render( request, testresult, status=201)
             return JsonResponse(testresult, status=202)
         else : 
             # print(serializer.errors)
