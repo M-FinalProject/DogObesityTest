@@ -50,12 +50,12 @@ def signup( request ):
 
 @csrf_exempt
 def login( request ):
-    ###### 그냥 임시로 구현 - 첫 페이지에 현재까지 눌러진 좋아요 수 표현
-    # if request.method == 'GET' :
-    #     total_count = Testresult.objects.all()
-    #     like_count = Testresult.objects.filter(like=1)
-    #     like_count = { 'total_count' : len(total_count) ,'like_count' : len(like_count) }
-    #     return JsonResponse(like_count, status=200)
+    ##### 그냥 임시로 구현 - 첫 페이지에 현재까지 눌러진 좋아요 수 표현
+    if request.method == 'GET' :
+        total_count = Testresult.objects.all()
+        like_count = Testresult.objects.filter(like=1)
+        like_count = { 'total_count' : len(total_count) ,'like_count' : len(like_count) }
+        return JsonResponse(like_count, status=200)
         
     if request.method == "POST":
         data = JSONParser().parse(request)
@@ -78,6 +78,7 @@ def stringToRGB(base64_string):
     image = Image.open(dataBytesIO)
     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
+
 @csrf_exempt
 def imageupload( request ):
     if request.method == "POST":
@@ -86,7 +87,7 @@ def imageupload( request ):
 
         userid = request_data['userid']
         img_base64 = request_data['image']
-        dog_breed = request_data['dog_breed'] 
+        dog_breed = request_data['dog_breed']
         # print(img_data, dog_breed)    
 
         ### base형식으로 받아온 이미지파일을 이미지의 색 정보를 나타내는 np.array 형태로 다시 디코딩
@@ -98,33 +99,32 @@ def imageupload( request ):
 
         dog_model = {
             'Chihuahua' : '',
-            'Welsh Corgi' : 'corgi_model_4.h5',
+            'Welsh Corgi' : 'cor_set3_E49_2.pth',
             'Beagle' : '',
             'Maltese' : '',
             'Retriever' : 'ret_set5_B_9_1.pth',
             'Dachshund' : 'dac_set9_b9_2.pth'
         }
         
-        if dog_breed in ['Welsh Corgi'] :
+        if dog_breed in ['Chihuahua', 'Beagle', 'Maltese'] :
             testresult = img_predict_keras(dog_breed, dog_model[dog_breed],decode_img, img_name)
             testresult = {'testresult' : testresult}
-        elif dog_breed in ['Retriever', 'Dachshund'] :
+        elif dog_breed in ['Welsh Corgi','Retriever', 'Dachshund'] :
             testresult = img_predict_torch(dog_breed, dog_model[dog_breed],decode_img,img_name)
-            testresult = {'testresult' : testresult}
 
-        new_data = {
-            'userid' : request.POST['userid'],
-            'image' : f'Image/{dog_breed}/saveimg/{img_name}',
-            'dog_breed' : request.POST['dog_breed'], 
+        testresult_data = {
+            'userid' : userid,
+            'image' : img_name,
+            'dog_breed' : dog_breed, 
             'testresult' : testresult,
         }
 
-        serializer = TestresultSerializer(data=new_data)
+        serializer = TestresultSerializer(data=testresult_data)
         # print(serializer.is_valid())
         if serializer.is_valid():
             serializer.save()
+            return JsonResponse(serializer.data, status=202)
             # return render( request, testresult, status=201)
-            return JsonResponse(testresult, status=202)
         else : 
             # print(serializer.errors)
             # return render( request, 'dogimage', status=400)
@@ -132,7 +132,16 @@ def imageupload( request ):
 
 @csrf_exempt
 def testresult(request):
-    return HttpResponse( status=200 )
+    # POST방식으로 userid, dog_breed, image, created
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        img_name = data['img_name']
+        queryset = Testresult.objects.get(image=img_name)  
+        queryset.like = 1
+        queryset.save()
+        return JsonResponse( queryset, status=200 )
+
+
 
 # @csrf_exempt
 # 사용자 id(userid), 견종(dog_breed), 업로드 된 이미지(image) 데이터를 multipart/form-data 형식으로 받아서 저리하고 json형식으로 주는 

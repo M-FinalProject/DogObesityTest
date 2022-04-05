@@ -96,6 +96,7 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
                         [-1, 5,-1],
                         [0, -1, 0]])
         image_sharp = cv2.filter2D(decode_img, -1, kernel)
+        image_tmp = image_sharp
 
     elif dog_breed == 'Dachshund':
         trim_img = trim(decode_img)
@@ -105,8 +106,12 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
                         [-1, 5,-1],
                         [0, -1, 0]])
         image_sharp = cv2.filter2D(image_yuv, -1, kernel)
+        image_tmp = image_sharp
 
-    cv2.imwrite(f'{image_path}/{img_name}', image_sharp)
+    elif dog_breed == 'Welsh Corgi':
+        image_tmp = decode_img
+
+    cv2.imwrite(f'{image_path}/{img_name}', image_tmp)
 
     ## test 전처리 
     transforms_test = transforms.Compose([
@@ -155,12 +160,12 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
 #     image = Image.open(dataBytesIO)
 #     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-# img_path = 'images.jpeg'
-# img_name = 'Pytorchtest.jpg'
+# img_path = 'nor_308.jpg'
+# img_name = 'welshcorgi_test.jpg'
 
 # with open(img_path, 'rb') as img:
 #     base64_str = base64.b64encode(img.read())
 
-# print(img_predict_torch('Retriever','ret_set1_L6.pth',stringToRGB(base64_str), img_name) )
+# print(img_predict_torch('Retriever','cor_set3_E49_2.pth',stringToRGB(base64_str), img_name) )
 
 

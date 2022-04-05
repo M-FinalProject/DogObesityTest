@@ -2,7 +2,7 @@ from tkinter import CASCADE
 from django.db import models
 from django import forms
 
-### 코드로 테스트하는 방법  유니테스트라던가..
+### 코드로 테스트하는 방법  유니테스트라던가..(구현 후 시간이 남으면 )
 
 # Create your models here.
 class Serviceuser(models.Model) :
@@ -18,10 +18,13 @@ class Serviceuser(models.Model) :
 class Testresult(models.Model) :
     # userid =  models.ForeignKey(Serviceuser, on_delete=models.PROTECT)
     userid = models.CharField(max_length=20)
-    image = models.CharField(max_length=100)
+    image = models.CharField(max_length=100,blank=True)
     dog_breed = models.CharField(max_length=100)
     testresult = models.CharField(max_length=10)
     like = models.IntegerField(blank=True,null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ['created']
 
 ## 프로젝트 폴더 > Settiongs.py에 
 ## MEDIA_URL = "/IMAGE/"  추가   (꼭 IMAGE로 할 필요 없음)
