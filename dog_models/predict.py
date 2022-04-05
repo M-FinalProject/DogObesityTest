@@ -10,7 +10,7 @@ import matplotlib as plt
 # # 모델이 keras CNN인 경우
 def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
     
-    model_path = 'dog_models/'
+    model_path = 'dog_models'
     image_path = f'Image/{dog_breed}/saveimg'
 
     model = load_model(f'{model_path}/{selected_model}')
@@ -84,7 +84,7 @@ def trim(image):
 def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu") # device 객체
 
-    model_path = 'dog_models/'
+    model_path = 'dog_models'
     image_path = f'Image/{dog_breed}/saveimg'
 
     # 모델 업로드 
