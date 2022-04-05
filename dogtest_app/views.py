@@ -43,9 +43,10 @@ def signup( request ):
         serializer = ServiceuserSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            # return JsonResponse(serializer.data, status=201)
-            return render( request, 'mainpage', status=201)  # 회원가입 성공 → mainpage로
-        return HttpResponseRedirect( reverse('signup'), status=400)   # 회원가입 실패 → signup page로
+            # return render( request, 'mainpage', status=201)  # 회원가입 성공 → mainpage로
+            return JsonResponse(serializer.data, status=201)
+        # return HttpResponseRedirect( reverse('signup'), status=400)   # 회원가입 실패 → signup page로
+        return HttpResponse( status=400 )
 
 @csrf_exempt
 def login( request ):
@@ -63,11 +64,11 @@ def login( request ):
         user_data = Serviceuser.objects.get(userid=input_id)
         try :  # DB에 저장된 id와 pw가 입력한 id와 pw가 일치한다면 status = 200
             if user_data.userid == input_id and PasswordHasher().verify(user_data.password, input_pw) :
-                return render( request, 'dogimage', status = 200)   # 로그인 성공 → dogimage page로
-                # return HttpResponse( status=200 )
+                # return render( request, 'dogimage', status = 200)   # 로그인 성공 → dogimage page로
+                return HttpResponse( status=200 )
         except : 
-            return HttpResponseRedirect( reverse('mainpage') ,status=400)   # 로그인 실패 → mainpage로
-            # return HttpResponse( status=400 )
+            # return HttpResponseRedirect( reverse('mainpage') ,status=400)   # 로그인 실패 → mainpage로
+            return HttpResponse( status=400 )
 
 
 ## base형식으로 받아온 이미지 데이터를 다시 디코딩하는 함수 
@@ -122,11 +123,12 @@ def imageupload( request ):
         # print(serializer.is_valid())
         if serializer.is_valid():
             serializer.save()
-            # return JsonResponse(testresult, status=202)
-            return render( request, 'testresult', status=201)
+            # return render( request, 'testresult', status=201)
+            return JsonResponse(testresult, status=202)
         else : 
             # print(serializer.errors)
-            return render( request, 'dogimage', status=400)
+            # return render( request, 'dogimage', status=400)
+            return HttpResponse( status=400 )
 
 @csrf_exempt
 def testresult(request):
