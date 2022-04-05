@@ -190,31 +190,31 @@ def testresult(request):
 
 ################# 나중에 지워도 되는 코드 ###############
 ## 회원, 결과 값 생성이 잘 됐는지 살펴보기 위한 코드 (나중에 지울 코드)
-@csrf_exempt
-def user_list( request ) :
-    # GET요청이 들어오면 전체 address list를 내려주는  
-    if request.method == 'GET':
-        query_set = Serviceuser.objects.all()
-        serializer = ServiceuserSerializer(query_set, many=True)  # many옵션은 다수의 queryset형태를 serializer화 하고자 할 때 사용 
-        return JsonResponse(serializer.data, safe=False)
-    elif request.method == "DELETE":
-        data = JSONParser().parse(request)
-        data = data['user']
-        user_data = Serviceuser.objects.get(userid=data['userid'])
-        user_data.delete()
-        return HttpResponse(status=200)
+# @csrf_exempt
+# def user_list( request ) :
+#     # GET요청이 들어오면 전체 address list를 내려주는  
+#     if request.method == 'GET':
+#         query_set = Serviceuser.objects.all()
+#         serializer = ServiceuserSerializer(query_set, many=True)  # many옵션은 다수의 queryset형태를 serializer화 하고자 할 때 사용 
+#         return JsonResponse(serializer.data, safe=False)
+#     elif request.method == "DELETE":
+#         data = JSONParser().parse(request)
+#         data = data['user']
+#         user_data = Serviceuser.objects.get(userid=data['userid'])
+#         user_data.delete()
+#         return HttpResponse(status=200)
 
-@csrf_exempt
-def testresult_list( request ) :
-    # GET요청이 들어오면 전체 address list를 내려주는  
-    if request.method == 'GET':
-        query_set = Testresult.objects.all()
-        serializer = TestresultSerializer(query_set, many=True)  # many옵션은 다수의 queryset형태를 serializer화 하고자 할 때 사용 
-        return JsonResponse(serializer.data, safe=False)
-    elif request.method == "DELETE":
-        data = JSONParser().parse(request)
-        user_data = Testresult.objects.filter(userid=data['userid'])
-        user_data.delete()
-        return HttpResponse(status=200)
+# @csrf_exempt
+# def testresult_list( request ) :
+#     # GET요청이 들어오면 전체 address list를 내려주는  
+#     if request.method == 'GET':
+#         query_set = Testresult.objects.all()
+#         serializer = TestresultSerializer(query_set, many=True)  # many옵션은 다수의 queryset형태를 serializer화 하고자 할 때 사용 
+#         return JsonResponse(serializer.data, safe=False)
+#     elif request.method == "DELETE":
+#         data = JSONParser().parse(request)
+#         user_data = Testresult.objects.filter(userid=data['userid'])
+#         user_data.delete()
+#         return HttpResponse(status=200)
 
 # @cstf_exempt
