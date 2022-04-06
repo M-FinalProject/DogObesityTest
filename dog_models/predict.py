@@ -14,7 +14,7 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 
     model = load_model(f'{model_path}/{selected_model}')
 
-    if dog_breed in ['Beagle', 'Chihuahua','Maltese']  :
+    if dog_breed in ['Beagle', 'Chihuahua']  :
         kernel = np.array([[0, -1, 0],
                         [-1, 5,-1],
                         [0, -1, 0]]) # 커널을 만듭니다.
