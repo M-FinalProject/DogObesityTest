@@ -14,17 +14,18 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 
     model = load_model(f'{model_path}/{selected_model}')
 
-    # cv2.imwrite(f'{image_path}/{img_name}', decode_img)
-    kernel = np.array([[0, -1, 0],
-                    [-1, 5,-1],
-                    [0, -1, 0]]) # 커널을 만듭니다.
+    if dog_breed in ['Beagle', 'Chihuahua']  :
+        kernel = np.array([[0, -1, 0],
+                        [-1, 5,-1],
+                        [0, -1, 0]]) # 커널을 만듭니다.
 
-    # 이미지를 선명하게 만듭니다.
-    image_sharp = cv2.filter2D(decode_img, -1, kernel)
-    # scaling
-    image_sharp = image_sharp / 255
-    # dsize
-    dst = cv2.resize(image_sharp, dsize=(299, 299))
+        # 이미지를 선명하게 만듭니다.
+        image_sharp = cv2.filter2D(decode_img, -1, kernel)
+        # scaling
+        image_sharp = image_sharp / 255
+        # dsize
+        dst = cv2.resize(image_sharp, dsize=(299, 299))
+
     test = (np.expand_dims(dst, 0))
 
     predict_prob = model.predict(test)
@@ -49,7 +50,7 @@ img_name = 'BBBBB.jpg'
 with open(img_path, 'rb') as img:
     base64_str = base64.b64encode(img.read())
 
-print( img_predict_keras('Beagle','beable_set5.h5',stringToRGB(base64_str), img_name) )
+print( img_predict_keras('Beagle','beagle_set5.h5',stringToRGB(base64_str), img_name) )
 
 
 
