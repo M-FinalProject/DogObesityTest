@@ -81,7 +81,7 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://35.76.37.170',
-    'http://35.76.37.170:80',  
+    'http://35.76.37.170:8980',  
 
 )
 

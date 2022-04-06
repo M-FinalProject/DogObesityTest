@@ -50,12 +50,12 @@ def signup( request ):
 
 @csrf_exempt
 def login( request ):
-    ##### 그냥 임시로 구현 - 첫 페이지에 현재까지 눌러진 좋아요 수 표현
-    if request.method == 'GET' :
-        total_count = Testresult.objects.all()
-        like_count = Testresult.objects.filter(like=1)
-        like_count = { 'total_count' : len(total_count) ,'like_count' : len(like_count) }
-        return JsonResponse(like_count, status=200)
+    # ##### 그냥 임시로 구현 - 첫 페이지에 현재까지 눌러진 좋아요 수 표현
+    # if request.method == 'GET' :
+    #     total_count = Testresult.objects.all()
+    #     like_count = Testresult.objects.filter(like=1)
+    #     like_count = { 'total_count' : len(total_count) ,'like_count' : len(like_count) }
+    #     return JsonResponse(like_count, status=200)
         
     if request.method == "POST":
         data = JSONParser().parse(request)
@@ -95,9 +95,9 @@ def imageupload( request ):
         img_name =f'{uuid_name}.jpg'
 
         dog_model = {
-            'Chihuahua' : '',
-            'Welsh Corgi' : 'cor_set3_E49_2.pth',
-            'Beagle' : '',
+            'Chihuahua' : 'chihuahua_set1.h5',
+            'Welsh Corgi' : 'cor_set4_B11_1.pth',
+            'Beagle' : 'beagle_set5.h5',
             'Maltese' : '',
             'Retriever' : 'ret_set5_B_9_1.pth',
             'Dachshund' : 'dac_set9_b9_2.pth'
