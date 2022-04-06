@@ -14,13 +14,13 @@ class Serviceuser(models.Model) :
     class Meta:
         ordering = ['created']
 
-# 사용자, 이미지명, 견종, 결과, 테스트시각
+# 사용자, 이미지 이름, 견종, 결과, 테스트시각
 class Testresult(models.Model) :
     # userid =  models.ForeignKey(Serviceuser, on_delete=models.PROTECT)
     userid = models.CharField(max_length=20)
-    image = models.CharField(max_length=100,blank=True)
+    image = models.CharField(max_length=255,blank=True)  # 이미지명 저장
     dog_breed = models.CharField(max_length=100)
-    testresult = models.CharField(max_length=10)
+    testresult = models.CharField(max_length=255)
     like = models.IntegerField(blank=True,null=True)
     created = models.DateTimeField(auto_now_add=True)
     class Meta:

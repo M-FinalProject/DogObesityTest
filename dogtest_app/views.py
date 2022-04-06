@@ -115,7 +115,7 @@ def imageupload( request ):
             'dog_breed' : dog_breed, 
             'testresult' : testresult,
             'like' : 0 ,
-        }
+        } 
 
         serializer = TestresultSerializer(data=testresult_data)
         if serializer.is_valid():
