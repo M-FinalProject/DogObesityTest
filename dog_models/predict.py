@@ -34,23 +34,23 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
     else :
         return "정상입니다"
 
-# predict.py 안에서 TEST  
-import base64, io, cv2
-import numpy as np
-from PIL import Image
-def stringToRGB(base64_string):
-    imgdata = base64.b64decode(base64_string)
-    dataBytesIO = io.BytesIO(imgdata)
-    image = Image.open(dataBytesIO)
-    return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
+# # predict.py 안에서 TEST  
+# import base64, io, cv2
+# import numpy as np
+# from PIL import Image
+# def stringToRGB(base64_string):
+#     imgdata = base64.b64decode(base64_string)
+#     dataBytesIO = io.BytesIO(imgdata)
+#     image = Image.open(dataBytesIO)
+#     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-img_path = '비글테스트.jpg'
-img_name = 'BBBBB.jpg'
+# img_path = '비글테스트.jpg'
+# img_name = 'BBBBB.jpg'
 
-with open(img_path, 'rb') as img:
-    base64_str = base64.b64encode(img.read())
+# with open(img_path, 'rb') as img:
+#     base64_str = base64.b64encode(img.read())
 
-print( img_predict_keras('Beagle','beagle_set5.h5',stringToRGB(base64_str), img_name) )
+# print( img_predict_keras('Beagle','beagle_set5.h5',stringToRGB(base64_str), img_name) )
 
 
 
@@ -116,7 +116,14 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
         image_tmp = image_sharp
 
     elif dog_breed == 'Welsh Corgi':
-        image_tmp = decode_img
+        ## 이미지를 선명하게 만듦
+        kernel = np.array([[0, -1, 0],
+                        [-1, 5,-1],
+                        [0, -1, 0]])
+        image_sharp = cv2.filter2D(decode_img, -1, kernel)
+        sobelx = cv2.Sobel(image_sharp, cv2.CV_8U, 1, 0, ksize=3)
+        
+        image_tmp = sobelx
 
     cv2.imwrite(f'{image_path}/{img_name}', image_tmp)
 
@@ -167,12 +174,12 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
 #     image = Image.open(dataBytesIO)
 #     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-# img_path = 'nor_308.jpg'
+# img_path = '돼지.jpeg'
 # img_name = 'welshcorgi_test.jpg'
 
 # with open(img_path, 'rb') as img:
 #     base64_str = base64.b64encode(img.read())
 
-# print(img_predict_torch('Retriever','cor_set3_E49_2.pth',stringToRGB(base64_str), img_name) )
+# print(img_predict_torch('Welsh Corgi','cor_set4_B11_1.pth',stringToRGB(base64_str), img_name) )
 
 
