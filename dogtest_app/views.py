@@ -105,7 +105,6 @@ def imageupload( request ):
         
         if dog_breed in ['Chihuahua', 'Beagle', 'Maltese'] :
             testresult = img_predict_keras(dog_breed, dog_model[dog_breed],decode_img, img_name)
-            # testresult = {'testresult' : testresult}
         elif dog_breed in ['Welsh Corgi','Retriever', 'Dachshund'] :
             testresult = img_predict_torch(dog_breed, dog_model[dog_breed],decode_img,img_name)
 
@@ -127,7 +126,7 @@ def imageupload( request ):
 
 @csrf_exempt
 def testresult(request):
-    # POST방식으로 userid, dog_breed, image(이미지 이름), created(셍성날짜)
+    # POST방식으로 userid, dog_breed, image(이미지 이름), created(생성날짜)
     if request.method == 'POST':
         data = JSONParser().parse(request)
         img_name = data['image']
