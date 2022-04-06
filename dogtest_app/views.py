@@ -71,7 +71,7 @@ def login( request ):
             return HttpResponse( status=400 )
 
 
-## base형식으로 받아온 이미지 데이터를 다시 디코딩하는 함수    
+## base64형식 decoding
 def stringToRGB(base64_string):
     imgdata = base64.b64decode(base64_string)
     dataBytesIO = io.BytesIO(imgdata)
@@ -88,12 +88,9 @@ def imageupload( request ):
         userid = request_data['userid']
         img_base64 = request_data['image']
         dog_breed = request_data['dog_breed']
-        # print(img_data, dog_breed)    
 
-        ### base형식으로 받아온 이미지파일을 이미지의 색 정보를 나타내는 np.array 형태로 다시 디코딩
         decode_img = stringToRGB(img_base64)
         
-        ## 파일명
         uuid_name = uuid4().hex
         img_name =f'{uuid_name}.jpg'
 
@@ -117,29 +114,27 @@ def imageupload( request ):
             'image' : img_name,
             'dog_breed' : dog_breed, 
             'testresult' : testresult,
+            'like' : 0 ,
         }
 
         serializer = TestresultSerializer(data=testresult_data)
-        # print(serializer.is_valid())
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=200)
-            # return render( request, testresult, status=201)
         else : 
             # print(serializer.errors)
-            # return render( request, 'dogimage', status=400)
             return HttpResponse( status=400 )
 
 @csrf_exempt
 def testresult(request):
-    # POST방식으로 userid, dog_breed, image, created
+    # POST방식으로 userid, dog_breed, image(이미지 이름), created(셍성날짜)
     if request.method == 'POST':
         data = JSONParser().parse(request)
-        img_name = data['img_name']
+        img_name = data['image']
         queryset = Testresult.objects.get(image=img_name)  
         queryset.like = 1
         queryset.save()
-        return JsonResponse( queryset, status=200 )
+        return HttpResponse( status=200 )
 
 
 
