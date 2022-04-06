@@ -50,7 +50,7 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 # with open(img_path, 'rb') as img:
 #     base64_str = base64.b64encode(img.read())
 
-# print( img_predict_keras('Beagle','beagle_set5.h5',stringToRGB(base64_str), img_name) )
+# print( img_predict_keras('Beagle','maltese_1.h5',stringToRGB(base64_str), img_name) )
 
 
 
