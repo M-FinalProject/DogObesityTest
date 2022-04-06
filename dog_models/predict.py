@@ -7,18 +7,24 @@ from http.client import HTTPResponse
 import numpy as np
 import matplotlib as plt
 
-# # 모델이 keras CNN인 경우
+# # 모델이 keras CNN인 경우 - 말티즈, 비글, 치와와    
 def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
-    
     model_path = 'dog_models'
     image_path = f'Image/{dog_breed}/saveimg'
 
     model = load_model(f'{model_path}/{selected_model}')
 
-    cv2.imwrite(f'{image_path}/{img_name}', decode_img)
+    # cv2.imwrite(f'{image_path}/{img_name}', decode_img)
+    kernel = np.array([[0, -1, 0],
+                    [-1, 5,-1],
+                    [0, -1, 0]]) # 커널을 만듭니다.
 
-    img = decode_img / 255
-    dst = cv2.resize(img, dsize=(700,700))
+    # 이미지를 선명하게 만듭니다.
+    image_sharp = cv2.filter2D(decode_img, -1, kernel)
+    # scaling
+    image_sharp = image_sharp / 255
+    # dsize
+    dst = cv2.resize(image_sharp, dsize=(299, 299))
     test = (np.expand_dims(dst, 0))
 
     predict_prob = model.predict(test)
@@ -27,23 +33,23 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
     else :
         return "정상입니다"
 
-## predict.py 안에서 TEST  (karas로 할 때 이미지 저장하는거 구현해야 함)
-# import base64, io, cv2
-# import numpy as np
-# from PIL import Image
-# def stringToRGB(base64_string):
-#     imgdata = base64.b64decode(base64_string)
-#     dataBytesIO = io.BytesIO(imgdata)
-#     image = Image.open(dataBytesIO)
-#     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
+# predict.py 안에서 TEST  
+import base64, io, cv2
+import numpy as np
+from PIL import Image
+def stringToRGB(base64_string):
+    imgdata = base64.b64decode(base64_string)
+    dataBytesIO = io.BytesIO(imgdata)
+    image = Image.open(dataBytesIO)
+    return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-# img_path = 'Image/Welsh Corgi/nor_308.jpg'
-# img_name = 'fffff.jpg'
+img_path = '비글테스트.jpg'
+img_name = 'BBBBB.jpg'
 
-# with open(img_path, 'rb') as img:
-#     base64_str = base64.b64encode(img.read())
+with open(img_path, 'rb') as img:
+    base64_str = base64.b64encode(img.read())
 
-# print( img_predict_keras('Welsh Corgi','corgi_model_4.h5',stringToRGB(base64_str), img_name) )
+print( img_predict_keras('Beagle','beable_set5.h5',stringToRGB(base64_str), img_name) )
 
 
 
