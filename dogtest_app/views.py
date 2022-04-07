@@ -22,19 +22,34 @@ from dogtest.settings import MEDIA_URL
 # Create your views here.
 @csrf_exempt
 def signup( request ):
+    # GET요청이 들어오면 사용자가 입력한 ID 중복 여부 검사 - old한 방법
+    # GET요청은 프론트엔드가 알려주는 스펙대로 다시 짜야해서 보류
+    # if request.method == "GET" :   
+    #     data = JSONParser().parse(request)
+    #     desired_id = data['userid']
+    #     # exist_id = Serviceuser.objects.get(user_id = desired_id)
+    #     try : 
+    #         if Serviceuser.objects.get(userid = desired_id) :   # 존재하면
+    #             return HttpResponse(status=200)
+    #     except:
+    #         return HttpResponse(status=409)
+
     # POST요청이 들어오면 ID와 생성    
     if request.method == "POST" :
         # print(request)
         data = JSONParser().parse(request)
         data = data['user']
-        data['password'] = PasswordHasher().hash(data['password'])
-        serializer = ServiceuserSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            # return render( request, 'mainpage', status=201)  # 회원가입 성공 → mainpage로
-            return JsonResponse(serializer.data, status=201)
-        # return HttpResponseRedirect( reverse('signup'), status=400)   # 회원가입 실패 → signup page로
-        return HttpResponse( status=400 )
+        desired_id = data['userid']
+        try : 
+            if Serviceuser.objects.get(userid = desired_id) :    # 존재하면 
+                return HttpResponse( status=409 )
+        except : 
+            data['password'] = PasswordHasher().hash(data['password'])
+            serializer = ServiceuserSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                # return render( request, 'mainpage', status=201)  # 회원가입 성공 → mainpage로
+                return JsonResponse(serializer.data, status=201)
 
 @csrf_exempt
 def login( request ):
@@ -182,33 +197,33 @@ def testresult(request):
 
 
 
-################# 나중에 지워도 되는 코드 ###############
-## 회원, 결과 값 생성이 잘 됐는지 살펴보기 위한 코드 (나중에 지울 코드)
-# @csrf_exempt
-# def user_list( request ) :
-#     # GET요청이 들어오면 전체 address list를 내려주는  
-#     if request.method == 'GET':
-#         query_set = Serviceuser.objects.all()
-#         serializer = ServiceuserSerializer(query_set, many=True)  # many옵션은 다수의 queryset형태를 serializer화 하고자 할 때 사용 
-#         return JsonResponse(serializer.data, safe=False)
-#     elif request.method == "DELETE":
-#         data = JSONParser().parse(request)
-#         data = data['user']
-#         user_data = Serviceuser.objects.get(userid=data['userid'])
-#         user_data.delete()
-#         return HttpResponse(status=200)
+################ 나중에 지워도 되는 코드 ###############
+# 회원, 결과 값 생성이 잘 됐는지 살펴보기 위한 코드 (나중에 지울 코드)
+@csrf_exempt
+def user_list( request ) :
+    # GET요청이 들어오면 전체 address list를 내려주는  
+    if request.method == 'GET':
+        query_set = Serviceuser.objects.all()
+        serializer = ServiceuserSerializer(query_set, many=True)  # many옵션은 다수의 queryset형태를 serializer화 하고자 할 때 사용 
+        return JsonResponse(serializer.data, safe=False)
+    elif request.method == "DELETE":
+        data = JSONParser().parse(request)
+        data = data['user']
+        user_data = Serviceuser.objects.get(userid=data['userid'])
+        user_data.delete()
+        return HttpResponse(status=200)
 
-# @csrf_exempt
-# def testresult_list( request ) :
-#     # GET요청이 들어오면 전체 address list를 내려주는  
-#     if request.method == 'GET':
-#         query_set = Testresult.objects.all()
-#         serializer = TestresultSerializer(query_set, many=True)  # many옵션은 다수의 queryset형태를 serializer화 하고자 할 때 사용 
-#         return JsonResponse(serializer.data, safe=False)
-#     elif request.method == "DELETE":
-#         data = JSONParser().parse(request)
-#         user_data = Testresult.objects.filter(userid=data['userid'])
-#         user_data.delete()
-#         return HttpResponse(status=200)
+@csrf_exempt
+def testresult_list( request ) :
+    # GET요청이 들어오면 전체 address list를 내려주는  
+    if request.method == 'GET':
+        query_set = Testresult.objects.all()
+        serializer = TestresultSerializer(query_set, many=True)  # many옵션은 다수의 queryset형태를 serializer화 하고자 할 때 사용 
+        return JsonResponse(serializer.data, safe=False)
+    elif request.method == "DELETE":
+        data = JSONParser().parse(request)
+        user_data = Testresult.objects.filter(userid=data['userid'])
+        user_data.delete()
+        return HttpResponse(status=200)
 
-# @cstf_exempt
+
