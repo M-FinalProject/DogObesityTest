@@ -50,6 +50,8 @@ def signup( request ):
                 serializer.save()
                 # return render( request, 'mainpage', status=201)  # 회원가입 성공 → mainpage로
                 return JsonResponse(serializer.data, status=201)
+            else :
+                return HttpResponse( status=400 )
 
 @csrf_exempt
 def login( request ):
@@ -122,15 +124,15 @@ def imageupload( request ):
         serializer = TestresultSerializer(data=testresult_data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=200)
+            return JsonResponse(serializer.data, status=201)
         else : 
             # print(serializer.errors)
             return HttpResponse( status=400 )
 
 @csrf_exempt
-def testresult(request):
-    # POST방식으로 userid, dog_breed, image(이미지 이름), created(생성날짜)
-    if request.method == 'POST':
+def testresult(request):  
+    # PUT방식으로 userid, dog_breed, image(이미지 이름), created(생성날짜)를 받아오면
+    if request.method == 'PUT':
         data = JSONParser().parse(request)
         img_name = data['image']
         try : 
