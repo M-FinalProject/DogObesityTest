@@ -97,7 +97,7 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
     # 모델 업로드 
     model = torch.load(f'{model_path}/{selected_model}', map_location='cpu')
     
-    if dog_breed == 'Retriever': 
+    if dog_breed in [ 'Retriever', 'Maltese' ] : 
         ## 이미지를 선명하게 만듦
         kernel = np.array([[0, -1, 0],
                         [-1, 5,-1],
@@ -174,12 +174,12 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
 #     image = Image.open(dataBytesIO)
 #     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-# img_path = '돼지.jpeg'
+# img_path = '정상.jpg'
 # img_name = 'welshcorgi_test.jpg'
 
 # with open(img_path, 'rb') as img:
 #     base64_str = base64.b64encode(img.read())
 
-# print(img_predict_torch('Welsh Corgi','cor_set4_B11_1.pth',stringToRGB(base64_str), img_name) )
+# print(img_predict_torch('Retriever','total_set6_B11_1.pth',stringToRGB(base64_str), img_name) )
 
 
