@@ -22,18 +22,6 @@ from dogtest.settings import MEDIA_URL
 # Create your views here.
 @csrf_exempt
 def signup( request ):
-    # GET요청이 들어오면 사용자가 입력한 ID 중복 여부 검사 - old한 방법
-    # GET요청은 프론트엔드가 알려주는 스펙대로 다시 짜야해서 보류
-    # if request.method == "GET" :   
-    #     data = JSONParser().parse(request)
-    #     desired_id = data['userid']
-    #     # exist_id = Serviceuser.objects.get(user_id = desired_id)
-    #     try : 
-    #         if Serviceuser.objects.get(userid = desired_id) :   # 존재하면
-    #             return HttpResponse(status=200)
-    #     except:
-    #         return HttpResponse(status=409)
-
     # POST요청이 들어오면 ID와 생성    
     if request.method == "POST" :
         # print(request)
