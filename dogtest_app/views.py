@@ -118,10 +118,13 @@ def testresult(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         img_name = data['image']
-        queryset = Testresult.objects.get(image=img_name)  
-        queryset.like = 1
-        queryset.save()
-        return HttpResponse( status=200 )
+        try : 
+            queryset = Testresult.objects.get(image=img_name)    
+            queryset.like = 1
+            queryset.save()
+            return HttpResponse( status=200 )
+        except :
+            return HttpResponse( status = 400 ) 
 
 
 

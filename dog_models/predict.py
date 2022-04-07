@@ -34,23 +34,23 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
     else :
         return "정상입니다"
 
-# predict.py 안에서 TEST  
-import base64, io, cv2
-import numpy as np
-from PIL import Image
-def stringToRGB(base64_string):
-    imgdata = base64.b64decode(base64_string)
-    dataBytesIO = io.BytesIO(imgdata)
-    image = Image.open(dataBytesIO)
-    return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
+# # predict.py 안에서 TEST  
+# import base64, io, cv2
+# import numpy as np
+# from PIL import Image
+# def stringToRGB(base64_string):
+#     imgdata = base64.b64decode(base64_string)
+#     dataBytesIO = io.BytesIO(imgdata)
+#     image = Image.open(dataBytesIO)
+#     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-img_path = 'images.jpeg'
-img_name = 'BBBBB.jpg'
+# img_path = 'images.jpeg'
+# img_name = 'BBBBB.jpg'
 
-with open(img_path, 'rb') as img:
-    base64_str = base64.b64encode(img.read())
+# with open(img_path, 'rb') as img:
+#     base64_str = base64.b64encode(img.read())
 
-print( img_predict_keras('Beagle','beagle_set5.h5',stringToRGB(base64_str), img_name) )
+# print( img_predict_keras('Beagle','beagle_set5.h5',stringToRGB(base64_str), img_name) )
 
 
 
