@@ -37,7 +37,7 @@ def signup( request ):
             if serializer.is_valid():
                 serializer.save()
                 # return render( request, 'mainpage', status=201)  # 회원가입 성공 → mainpage로
-                return JsonResponse(serializer.data, status=201)
+                return JsonResponse(status=201)
             else :
                 return HttpResponse( status=400 )
 
