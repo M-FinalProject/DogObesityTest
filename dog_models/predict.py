@@ -14,7 +14,7 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 
     model = load_model(f'{model_path}/{selected_model}')
 
-    if dog_breed in ['Beagle', 'Chihuahua']  :
+    if dog_breed in ['Beagle', 'Chihuahua', 'Maltese']  :
         kernel = np.array([[0, -1, 0],
                         [-1, 5,-1],
                         [0, -1, 0]]) # 커널을 만듭니다.
@@ -44,13 +44,13 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 #     image = Image.open(dataBytesIO)
 #     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-# img_path = 'images.jpeg'
-# img_name = 'BBBBB.jpg'
+# img_path = '비만.jpg'
+# img_name = 'MMMM.jpg'
 
 # with open(img_path, 'rb') as img:
 #     base64_str = base64.b64encode(img.read())
 
-# print( img_predict_keras('Beagle','beagle_set5.h5',stringToRGB(base64_str), img_name) )
+# print( img_predict_keras('Maltese','maltese_3.1.h5',stringToRGB(base64_str), img_name) )
 
 
 
@@ -97,7 +97,7 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
     # 모델 업로드 
     model = torch.load(f'{model_path}/{selected_model}', map_location='cpu')
     
-    if dog_breed in [ 'Retriever', 'Maltese' ] : 
+    if dog_breed == 'Retriever' : 
         ## 이미지를 선명하게 만듦
         kernel = np.array([[0, -1, 0],
                         [-1, 5,-1],
@@ -180,6 +180,6 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
 # with open(img_path, 'rb') as img:
 #     base64_str = base64.b64encode(img.read())
 
-# print(img_predict_torch('Retriever','total_set6_B11_1.pth',stringToRGB(base64_str), img_name) )
+# print(img_predict_torch('Retriever','',stringToRGB(base64_str), img_name) )
 
 

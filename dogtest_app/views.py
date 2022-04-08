@@ -91,7 +91,7 @@ def imageupload( request ):
             'Chihuahua' : 'chihuahua_set1.h5',
             'Welsh Corgi' : 'cor_set4_B11_1.pth',
             'Beagle' : 'beagle_set5.h5',
-            'Maltese' : 'maltese_1.h5',
+            'Maltese' : 'maltese_3.1.h5',
             'Retriever' : 'ret_set5_B_9_1.pth',
             'Dachshund' : 'dac_set9_b9_2.pth'
         }
