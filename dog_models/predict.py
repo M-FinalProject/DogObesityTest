@@ -30,9 +30,9 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 
     predict_prob = model.predict(test)
     if round(predict_prob[0][0],2) >= 0.5 :
-        return "관리가 필요합니다"
+        return "당신의 강아지는 비만입니다"
     else :
-        return "정상입니다"
+        return "당신의 강아지는 정상입니다"
 
 # # predict.py 안에서 TEST  
 # import base64, io, cv2
