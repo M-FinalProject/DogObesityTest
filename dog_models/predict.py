@@ -7,7 +7,7 @@ from http.client import HTTPResponse
 import numpy as np
 import matplotlib as plt
 
-####### 정상 / 비만 예측 전 개인지 확인
+####### 정상 / 비만 예측 전 개(성견)인지 확인
 def dog_check(decode_img):
     model = load_model('dog_models/precondition_set1_B20_E49.pth')
 
@@ -16,24 +16,23 @@ def dog_check(decode_img):
 
 
 
-# ################ 모델 keras CNN - 말티즈, 비글, 치와와    
+####### 모델 keras CNN - 말티즈, 비글, 치와와    
 def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
     model_path = 'dog_models'
     image_path = f'Image/{dog_breed}/saveimg'
 
     model = load_model(f'{model_path}/{selected_model}')
 
-    if dog_breed in ['Beagle', 'Chihuahua', 'Maltese']  :
-        kernel = np.array([[0, -1, 0],
-                        [-1, 5,-1],
-                        [0, -1, 0]]) # 커널을 만듭니다.
+    kernel = np.array([[0, -1, 0],
+                    [-1, 5,-1],
+                    [0, -1, 0]]) # 커널 생성
 
-        # 이미지를 선명하게 만듭니다.
-        image_sharp = cv2.filter2D(decode_img, -1, kernel)
-        # scaling
-        image_sharp = image_sharp / 255
-        # dsize
-        dst = cv2.resize(image_sharp, dsize=(299, 299))
+    # 이미지를 선명하게
+    image_sharp = cv2.filter2D(decode_img, -1, kernel)
+    # scaling
+    image_sharp = image_sharp / 255
+    # dsize
+    dst = cv2.resize(image_sharp, dsize=(299, 299))
 
     test = (np.expand_dims(dst, 0))
 
