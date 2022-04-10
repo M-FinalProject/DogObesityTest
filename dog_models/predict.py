@@ -7,7 +7,16 @@ from http.client import HTTPResponse
 import numpy as np
 import matplotlib as plt
 
-# # 모델이 keras CNN인 경우 - 말티즈, 비글, 치와와    
+####### 정상 / 비만 예측 전 개인지 확인
+def dog_check(decode_img):
+    model = load_model('dog_models/precondition_set1_B20_E49.pth')
+
+    
+    return 0
+
+
+
+# ################ 모델 keras CNN - 말티즈, 비글, 치와와    
 def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
     model_path = 'dog_models'
     image_path = f'Image/{dog_breed}/saveimg'
@@ -54,7 +63,7 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 
 
 
-###### 모델이 Pytorch인 경우
+###### 모델이 Pytorch - 리트리버, 웰시코기, 닥스훈트
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -98,7 +107,7 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
     model = torch.load(f'{model_path}/{selected_model}', map_location='cpu')
     
     if dog_breed == 'Retriever' : 
-        ## 이미지를 선명하게 만듦
+        ## 이미지 선명하게
         kernel = np.array([[0, -1, 0],
                         [-1, 5,-1],
                         [0, -1, 0]])
@@ -116,7 +125,7 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
         image_tmp = image_sharp
 
     elif dog_breed == 'Welsh Corgi':
-        ## 이미지를 선명하게 만듦
+        ## 이미지 선명하게
         kernel = np.array([[0, -1, 0],
                         [-1, 5,-1],
                         [0, -1, 0]])
@@ -139,19 +148,19 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
 
     class_names = ['비만', '정상']
 
-    ## 이미지 출력 함수
-    def imshow(input, title):
-        # torch.Tensor를 numpy 객체로 변환
-        input = input.numpy().transpose((1, 2, 0))
-        # 이미지 정규화 해제하기
-        mean = np.array([0.485, 0.456, 0.406])
-        std = np.array([0.229, 0.224, 0.225])
-        input = std * input + mean
-        input = np.clip(input, 0, 1)
-        # 이미지 출력
-        plt.imshow(input)
-        plt.title(title)
-        plt.show()
+    # ## 이미지 출력 함수
+    # def imshow(input, title):
+    #     # torch.Tensor를 numpy 객체로 변환
+    #     input = input.numpy().transpose((1, 2, 0))
+    #     # 이미지 정규화 해제하기
+    #     mean = np.array([0.485, 0.456, 0.406])
+    #     std = np.array([0.229, 0.224, 0.225])
+    #     input = std * input + mean
+    #     input = np.clip(input, 0, 1)
+    #     # 이미지 출력
+    #     plt.imshow(input)
+    #     plt.title(title)
+    #     plt.show()
 
     ## 이미지 업로드 
     image = Image.open(f'{image_path}/{img_name}')

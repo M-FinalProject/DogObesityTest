@@ -15,7 +15,7 @@ from argon2 import PasswordHasher
 
 from .models import Serviceuser, Testresult
 from .serializers import ServiceuserSerializer, TestresultSerializer
-from dog_models.predict import img_predict_keras, img_predict_torch
+from dog_models.predict import img_predict_keras, img_predict_torch, dog_check
 from dogtest.settings import MEDIA_URL
 
 
@@ -96,10 +96,13 @@ def imageupload( request ):
             'Dachshund' : 'dac_set9_b9_2.pth'
         }
         
-        if dog_breed in ['Chihuahua', 'Beagle', 'Maltese'] :
+        if dog_check(decode_img)  & dog_breed in ['Chihuahua', 'Beagle', 'Maltese'] :
             testresult = img_predict_keras(dog_breed, dog_model[dog_breed],decode_img, img_name)
-        elif dog_breed in ['Welsh Corgi','Retriever', 'Dachshund'] :
+        elif dog_check(decode_img)  & dog_breed in ['Welsh Corgi','Retriever', 'Dachshund'] :
             testresult = img_predict_torch(dog_breed, dog_model[dog_breed],decode_img,img_name)
+        else :
+            return HttpResponse( status=400 )
+
 
         testresult_data = {
             'userid' : userid,
@@ -114,7 +117,6 @@ def imageupload( request ):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         else : 
-            # print(serializer.errors)
             return HttpResponse( status=400 )
 
 @csrf_exempt
@@ -134,7 +136,7 @@ def testresult(request):
 
 
 # @csrf_exempt
-# 사용자 id(userid), 견종(dog_breed), 업로드 된 이미지(image) 데이터를 multipart/form-data 형식으로 받아서 저리하고 json형식으로 주는 
+# userid, dob_breed, image 데이터를 multipart/form-data 형식으로 받아서 저리하고 json형식으로 주는 
 # def imageupload( request ):
 #     if request.method == "POST":
 #         img_data = request.FILES['image']
