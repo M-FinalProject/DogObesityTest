@@ -167,8 +167,8 @@ def dog_check(decode_img, img_name):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # model = torch.load('dog_models/precondition_set1_B20_E49.pth', map_location='cpu')
-    model = torch.load('dog_models/precondition_set1_B20_E49.pth')
-    
+    model = torch.load('dog_models/precondition_set1_B20_E49.pth', map_location='cpu')
+
     img_path = 'img_check/check'
 
     cv2.imwrite(f'{img_path}/{img_name}', decode_img)
