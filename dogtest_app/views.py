@@ -96,9 +96,9 @@ def imageupload( request ):
             'Dachshund' : 'dac_set9_b9_2.pth'
         }
         
-        if dog_check(decode_img)  & dog_breed in ['Chihuahua', 'Beagle', 'Maltese'] :
+        if dog_check(decode_img, img_name)  & dog_breed in ['Chihuahua', 'Beagle', 'Maltese'] :
             testresult = img_predict_keras(dog_breed, dog_model[dog_breed],decode_img, img_name)
-        elif dog_check(decode_img)  & dog_breed in ['Welsh Corgi','Retriever', 'Dachshund'] :
+        elif dog_check(decode_img, img_name)  & dog_breed in ['Welsh Corgi','Retriever', 'Dachshund'] :
             testresult = img_predict_torch(dog_breed, dog_model[dog_breed],decode_img,img_name)
         else :
             return HttpResponse( status=400 )

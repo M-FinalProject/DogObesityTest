@@ -1,25 +1,19 @@
 from re import X
 from tensorflow.keras.models import load_model
-import cv2, os
+import cv2, os, shutil
 # print(cv2.__version__)
 from http.client import HTTPResponse
 
 import numpy as np
 import matplotlib as plt
 
-####### 정상 / 비만 예측 전 개(성견)인지 확인
-def dog_check(decode_img):
-    model = load_model('dog_models/precondition_set1_B20_E49.pth')
-
-    
-    return 0
-
-
-
 ####### 모델 keras CNN - 말티즈, 비글, 치와와    
 def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
     model_path = 'dog_models'
-    image_path = f'Image/{dog_breed}/saveimg'
+    old_path = f'Image_check/check'
+    new_path = f'Image/{dog_breed}/saveimg'
+
+    shutil.move(f'{old_path}/{img_name}', f'{new_path}/{img_name}')
 
     model = load_model(f'{model_path}/{selected_model}')
 
@@ -100,7 +94,11 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu") # device 객체
 
     model_path = 'dog_models'
-    image_path = f'Image/{dog_breed}/saveimg'
+
+    old_path = f'Image_check/check'
+    new_path = f'Image/{dog_breed}/saveimg'
+
+    shutil.move(f'{old_path}/{img_name}', f'{new_path}/{img_name}')
 
     # 모델 업로드 
     model = torch.load(f'{model_path}/{selected_model}', map_location='cpu')
@@ -133,7 +131,7 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
         
         image_tmp = sobelx
 
-    cv2.imwrite(f'{image_path}/{img_name}', image_tmp)
+    cv2.imwrite(f'{new_path}/aa{img_name}', image_tmp)
 
     ## test 전처리 
     transforms_test = transforms.Compose([
@@ -142,34 +140,20 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
 
-    data_dir = 'Image'
-    test_datasets = datasets.ImageFolder(os.path.join(data_dir, f'{dog_breed}'), transforms_test)
-
     class_names = ['비만', '정상']
 
-    # ## 이미지 출력 함수
-    # def imshow(input, title):
-    #     # torch.Tensor를 numpy 객체로 변환
-    #     input = input.numpy().transpose((1, 2, 0))
-    #     # 이미지 정규화 해제하기
-    #     mean = np.array([0.485, 0.456, 0.406])
-    #     std = np.array([0.229, 0.224, 0.225])
-    #     input = std * input + mean
-    #     input = np.clip(input, 0, 1)
-    #     # 이미지 출력
-    #     plt.imshow(input)
-    #     plt.title(title)
-    #     plt.show()
-
     ## 이미지 업로드 
-    image = Image.open(f'{image_path}/{img_name}')
+    image = Image.open(f'{new_path}/gh{img_name}')
     image = transforms_test(image).unsqueeze(0).to(device)
 
     with torch.no_grad():
         outputs = model(image)
         _, preds = torch.max(outputs, 1)
-    return f'당신의 강아지는 {class_names[preds[0]]}입니다!'
+    
+    ## 전처리 된 이미지 파일 삭제
+    os.remove(f'{new_path}/gh{img_name}')
 
+    return f'당신의 강아지는 {class_names[preds[0]]}입니다!'
 
 # ## predict.py 안에서 TEST2  
 # import base64, io, cv2
@@ -191,3 +175,51 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
 # print(img_predict_torch('Retriever','',stringToRGB(base64_str), img_name) )
 
 
+
+####### 정상 / 비만 예측 전 개(성견)인지 확인
+def dog_check(decode_img, img_name):
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+    model = torch.load('dog_models/precondition_set1_B20_E49.pth', map_location='cpu')
+    img_path = 'img_check/check'
+
+    cv2.imwrite(f'{img_path}/{img_name}', decode_img)
+
+    transforms_test = transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ])
+    
+    class_names = ['cat', 'dog', 'human']
+    
+    image = Image.open(f'{img_path}/{img_name}')
+    image = transforms_test(image).unsqueeze(0).to(device)
+
+    with torch.no_grad():
+        outputs = model(image)
+        _, preds = torch.max(outputs, 1)
+        
+    if class_names[preds[0]] == 'dog':
+        return True
+    else : 
+        return False
+
+
+# # predict.py 안에서 TEST  
+# import base64, io, cv2
+# import numpy as np
+# from PIL import Image
+# def stringToRGB(base64_string):
+#     imgdata = base64.b64decode(base64_string)
+#     dataBytesIO = io.BytesIO(imgdata)
+#     image = Image.open(dataBytesIO)
+#     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
+
+# img_path = 'test3.jpg'
+# img_name = 'cat.jpg'
+
+# with open(img_path, 'rb') as img:
+#     base64_str = base64.b64encode(img.read())
+
+# print(dog_check(stringToRGB(base64_str), img_name))
