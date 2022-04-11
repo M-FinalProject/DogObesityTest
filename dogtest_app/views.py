@@ -113,7 +113,7 @@ def imageupload( request ):
             user_testlist= Testresult.objects.get(userid=userid)
 
             ## 가장 최근 테스트의 비만율, 현재 테스트의 비만율과 text
-            response_data = {'pre_rate' : user_testlist.obesity_rate, 'cur_rate':testresult['obesity_rate'], 'cur_result':testresult['text']} 
+            response_data = {'pre_rate' : sdf, 'cur_rate':testresult['obesity_rate'], 'cur_result':testresult['text']} 
             return JsonResponse(response_data, status=201)
         else : 
             return HttpResponse( status= 400 )  
