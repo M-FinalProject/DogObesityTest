@@ -169,7 +169,7 @@ def dog_check(decode_img, img_name):
     # model = torch.load('dog_models/precondition_set1_B20_E49.pth', map_location='cpu')
     model = torch.load('dog_models/precondition_set1_B20_E49.pth', map_location='cpu')
 
-    img_path = 'img_check/check'
+    img_path = 'Image_check/check'
 
     cv2.imwrite(f'{img_path}/{img_name}', decode_img)
 
