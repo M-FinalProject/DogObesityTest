@@ -110,10 +110,11 @@ def imageupload( request ):
         if serializer.is_valid():
             serializer.save()
             
-            user_testlist= Testresult.objects.get(userid=userid)
+            user_testlist= Testresult.objects.filter(userid=userid)
+            recent_data = user_testlist[len(user_testlist)-1]
 
             ## 가장 최근 테스트의 비만율, 현재 테스트의 비만율과 text
-            response_data = {'pre_rate' : 123, 'cur_rate':testresult['obesity_rate'], 'cur_result':testresult['text']} 
+            response_data = {'pre_rate' : recent_data.obesity_rate, 'cur_rate':testresult['obesity_rate'], 'cur_result':testresult['text']} 
             return JsonResponse(response_data, status=201)
         else : 
             return HttpResponse( status= 400 )  
@@ -125,7 +126,7 @@ def testresult(request):
         data = JSONParser().parse(request)
         img_name = data['image']
         try : 
-            queryset = Testresult.objects.get(image=img_name)    
+            queryset = Testresult.objects.filter(image=img_name)    
             queryset.like = 1
             queryset.save()
             
