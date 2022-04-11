@@ -105,6 +105,7 @@ def imageupload( request ):
             'obesity_rate' : testresult['obesity_rate'],
             'like' : 0 ,
         } 
+        
         result_text = {'testresult':testresult['text']}
 
         serializer = TestresultSerializer(data=testresult_data)
@@ -115,8 +116,8 @@ def imageupload( request ):
             recent_data = user_testlist[len(user_testlist)-1]
 
             ## 가장 최근 테스트의 비만율, 현재 테스트의 비만율과 text
-            response_data = {'pre_rate' : recent_data.obesity_rate, 'cur_rate':testresult['obesity_rate'], 'cur_result':testresult['result']} 
-            return JsonResponse(result_text, status=201)
+            response_data = {'pre_rate' : recent_data.obesity_rate, 'cur_rate':testresult['obesity_rate'], 'cur_result':testresult['text']} 
+            return JsonResponse(response_data, status=201)
         else : 
             return HttpResponse( status= 400 )  
 
