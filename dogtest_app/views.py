@@ -42,14 +42,7 @@ def signup( request ):
                 return HttpResponse( status=400 )
 
 @csrf_exempt
-def login( request ):
-    # ##### 그냥 임시로 구현 - 첫 페이지에 현재까지 눌러진 좋아요 수 표현
-    # if request.method == 'GET' :
-    #     total_count = Testresult.objects.all()
-    #     like_count = Testresult.objects.filter(like=1)
-    #     like_count = { 'total_count' : len(total_count) ,'like_count' : len(like_count) }
-    #     return JsonResponse(like_count, status=200)
-        
+def login( request ):        
     if request.method == "POST":
         data = JSONParser().parse(request)
         data = data['user']
@@ -129,14 +122,25 @@ def testresult(request):
             queryset = Testresult.objects.get(image=img_name)    
             queryset.like = 1
             queryset.save()
-            return HttpResponse( status=200 )
+            
+            total_count = Testresult.objects.all()
+            like_count = Testresult.objects.filter(like=1)
+            like_count = { 'total_count' : len(total_count) ,'like_count' : len(like_count) }
+            return JsonResponse(like_count, status=200)
         except :
             return HttpResponse( status = 400 ) 
 
+# ##### 그냥 임시로 구현 - 첫 페이지에 현재까지 눌러진 좋아요 수 표현
+    # if request.method == 'GET' :
+    #     total_count = Testresult.objects.all()
+    #     like_count = Testresult.objects.filter(like=1)
+    #     like_count = { 'total_count' : len(total_count) ,'like_count' : len(like_count) }
+    #     return JsonResponse(like_count, status=200)
 
 
+
+###### multipart/form-data 형식으로 받았을 때 처리하는 함수
 # @csrf_exempt
-# userid, dob_breed, image 데이터를 multipart/form-data 형식으로 받아서 저리하고 json형식으로 주는 
 # def imageupload( request ):
 #     if request.method == "POST":
 #         img_data = request.FILES['image']
