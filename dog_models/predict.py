@@ -117,7 +117,7 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
         
         image_tmp = sobelx
 
-    cv2.imwrite(f'{new_path}/aa{img_name}', image_tmp)
+    cv2.imwrite(f'{new_path}/gh{img_name}', image_tmp)
 
     ## test 전처리 
     transforms_test = transforms.Compose([
