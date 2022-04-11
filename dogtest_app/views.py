@@ -110,7 +110,7 @@ def imageupload( request ):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         else : 
-            return HttpResponse( status=400 )
+            return HttpResponse( status= 204 )  # http status 204  : 서버가 요청을 성공적으로 처리했지만 콘텐츠를 제공하지 않는다.
 
 @csrf_exempt
 def testresult(request):  
