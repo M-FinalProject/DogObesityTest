@@ -1,11 +1,15 @@
-from re import X
-from tensorflow.keras.models import load_model
-import cv2, os, shutil
-# print(cv2.__version__)
-from http.client import HTTPResponse
-
+import cv2, os, shutil, time
 import numpy as np
-import matplotlib as plt
+
+from PIL import Image
+from re import X
+
+# tensorflow
+from tensorflow.keras.models import load_model
+# Pytorch
+import torch
+from torchvision import transforms
+
 
 ####### 모델 keras CNN - 말티즈, 비글, 치와와    
 def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
@@ -57,24 +61,6 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 
 
 ###### 모델이 Pytorch - 리트리버, 웰시코기, 닥스훈트
-import torch
-import torch.nn as nn
-import torch.optim as optim
-
-import torchvision
-from torchvision import datasets, models, transforms
-
-import numpy as np
-import time
-
-import os, shutil
-import matplotlib as plt
-
-import matplotlib
-import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
-from PIL import Image
-
 def trim(image):
     h, w = image.shape[0], image.shape[1]
     # The center of a image
@@ -180,7 +166,9 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
 def dog_check(decode_img, img_name):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    model = torch.load('dog_models/precondition_set1_B20_E49.pth', map_location='cpu')
+    # model = torch.load('dog_models/precondition_set1_B20_E49.pth', map_location='cpu')
+    model = torch.load('dog_models/precondition_set1_B20_E49.pth')
+    
     img_path = 'img_check/check'
 
     cv2.imwrite(f'{img_path}/{img_name}', decode_img)
