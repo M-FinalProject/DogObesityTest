@@ -147,6 +147,7 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
     probabilities = torch.nn.functional.softmax(outputs[0], dim=0)
 
     obesity_rate = int(round(probabilities[0].item() * 100, 0))
+    print(probabilities[0].item())
 
     if class_names[preds[0]] == '정상':
         result = {'result':'정상', 'obesity_rate' : obesity_rate, 'text': "당신의 강아지는 정상입니다" }
@@ -166,13 +167,15 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
 #     image = Image.open(dataBytesIO)
 #     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-# img_path = '정상.jpg'
-# img_name = 'welshcorgi_test.jpg'
+# img_path = 'Image_check/check/fat_test.jpg'
+# img_name = 'fat_test.jpg'
 
 # with open(img_path, 'rb') as img:
 #     base64_str = base64.b64encode(img.read())
 
-# print(img_predict_torch('Retriever','',stringToRGB(base64_str), img_name) )
+# testresult = img_predict_torch('Retriever','ret_set5_B_9_1.pth',stringToRGB(base64_str), img_name) 
+# print(testresult['text'])
+# print(testresult['obesity_rate'])
 
 
 

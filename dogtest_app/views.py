@@ -14,7 +14,7 @@ from rest_framework.parsers import JSONParser
 from argon2 import PasswordHasher
 
 from .models import Serviceuser, Testresult
-from .serializers import ServiceuserSerializer, TestresultSerializer
+from .serializers import ServiceuserSerializer, TestresultSerializer, ResultSerializer
 from dog_models.predict import img_predict_keras, img_predict_torch, dog_check
 from dogtest.settings import MEDIA_URL
 
@@ -114,8 +114,9 @@ def imageupload( request ):
             recent_data = user_testlist[len(user_testlist)-1]
 
             ## 가장 최근 테스트의 비만율, 현재 테스트의 비만율과 text
-            response_data = {'pre_rate' : recent_data.obesity_rate, 'cur_rate':testresult['obesity_rate'], 'cur_result':str(testresult['text'])} 
-            return JsonResponse(response_data, status=201)
+            response_data = {'pre_rate' : recent_data.obesity_rate, 'cur_rate':testresult['obesity_rate'], 'cur_result':testresult['text']} 
+            result_serializer = ResultSerializer(data =response_data)
+            return JsonResponse(result_serializer.data, status=201)
         else : 
             return HttpResponse( status= 400 )  
 
