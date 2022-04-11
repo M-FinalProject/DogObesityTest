@@ -38,9 +38,11 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 
 
     if round(predict_prob[0][0],2) >= 0.5 :
-        return { 'obesity_rate' : round(predict_prob[0][0],2), 'text': "당신의 강아지는 비만입니다" }
+        result = { 'obesity_rate' : round(predict_prob[0][0],2), 'text': "당신의 강아지는 비만입니다" }
+        return result
     else :
-        return { 'obesity_rate' : round(predict_prob[0][0],2), 'text': "당신의 강아지는 정상입니다" }
+        result = { 'obesity_rate' : round(predict_prob[0][0],2), 'text': "당신의 강아지는 정상입니다" }
+        return result
 
 # # predict.py 안에서 TEST  
 # import base64, io, cv2
@@ -147,9 +149,11 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
     obesity_rate = int(round(probabilities[0].item() * 100, 0))
 
     if class_names[preds[0]] == '비만':
-        return { 'obesity_rate' : obesity_rate, 'text': "당신의 강아지는 비만입니다" }
+        result = { 'obesity_rate' : obesity_rate, 'text': "당신의 강아지는 비만입니다" }
+        return result
     else :
-        return { 'obesity_rate' : obesity_rate, 'text': "당신의 강아지는 정상입니다" }
+        result = { 'obesity_rate' : obesity_rate, 'text': "당신의 강아지는 정상입니다" }
+        return result
 
 # ## predict.py 안에서 TEST2  
 # import base64, io, cv2
