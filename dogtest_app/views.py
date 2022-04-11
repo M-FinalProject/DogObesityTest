@@ -94,23 +94,29 @@ def imageupload( request ):
         elif dog_check(decode_img, img_name) and dog_breed in ['Welsh Corgi','Retriever', 'Dachshund'] :
             testresult = img_predict_torch(dog_breed, dog_model[dog_breed],decode_img,img_name)
         else :
-            return HttpResponse( status=400 )
+            return HttpResponse( status=204 )  # http status 204  : 서버가 요청을 성공적으로 처리했지만 콘텐츠를 제공하지 않는다.
 
 
         testresult_data = {
             'userid' : userid,
             'image' : img_name,
             'dog_breed' : dog_breed, 
-            'testresult' : testresult,
+            'testresult' : testresult['text'],
+            'obesity_rate' : testresult['obesity_rate'],
             'like' : 0 ,
         } 
 
         serializer = TestresultSerializer(data=testresult_data)
         if serializer.is_valid():
             serializer.save()
+            
+            user_testlist= Testresult.objects.get(userid=userid)
+
+            ## 가장 최근 테스트의 비만율, 현재 테스트의 비만율과 text
+            response_data = {'pre_rate' : user_testlist.obesity_rate, 'cur_rate':testresult['obesity_rate'], 'cur_result':testresult['text']} 
             return JsonResponse(serializer.data, status=201)
         else : 
-            return HttpResponse( status= 204 )  # http status 204  : 서버가 요청을 성공적으로 처리했지만 콘텐츠를 제공하지 않는다.
+            return HttpResponse( status= 400 )  
 
 @csrf_exempt
 def testresult(request):  
@@ -195,31 +201,31 @@ def testresult(request):
 
 ################ 나중에 지워도 되는 코드 ###############
 # 회원, 결과 값 생성이 잘 됐는지 살펴보기 위한 코드 (나중에 지울 코드)
-@csrf_exempt
-def user_list( request ) :
-    # GET요청이 들어오면 전체 address list를 내려주는  
-    if request.method == 'GET':
-        query_set = Serviceuser.objects.all()
-        serializer = ServiceuserSerializer(query_set, many=True)  # many옵션은 다수의 queryset형태를 serializer화 하고자 할 때 사용 
-        return JsonResponse(serializer.data, safe=False)
-    elif request.method == "DELETE":
-        data = JSONParser().parse(request)
-        data = data['user']
-        user_data = Serviceuser.objects.get(userid=data['userid'])
-        user_data.delete()
-        return HttpResponse(status=200)
+# @csrf_exempt
+# def user_list( request ) :
+#     # GET요청이 들어오면 전체 address list를 내려주는  
+#     if request.method == 'GET':
+#         query_set = Serviceuser.objects.all()
+#         serializer = ServiceuserSerializer(query_set, many=True)  # many옵션은 다수의 queryset형태를 serializer화 하고자 할 때 사용 
+#         return JsonResponse(serializer.data, safe=False)
+#     elif request.method == "DELETE":
+#         data = JSONParser().parse(request)
+#         data = data['user']
+#         user_data = Serviceuser.objects.get(userid=data['userid'])
+#         user_data.delete()
+#         return HttpResponse(status=200)
 
-@csrf_exempt
-def testresult_list( request ) :
-    # GET요청이 들어오면 전체 address list를 내려주는  
-    if request.method == 'GET':
-        query_set = Testresult.objects.all()
-        serializer = TestresultSerializer(query_set, many=True)  # many옵션은 다수의 queryset형태를 serializer화 하고자 할 때 사용 
-        return JsonResponse(serializer.data, safe=False)
-    elif request.method == "DELETE":
-        data = JSONParser().parse(request)
-        user_data = Testresult.objects.filter(userid=data['userid'])
-        user_data.delete()
-        return HttpResponse(status=200)
+# @csrf_exempt
+# def testresult_list( request ) :
+#     # GET요청이 들어오면 전체 address list를 내려주는  
+#     if request.method == 'GET':
+#         query_set = Testresult.objects.all()
+#         serializer = TestresultSerializer(query_set, many=True)  # many옵션은 다수의 queryset형태를 serializer화 하고자 할 때 사용 
+#         return JsonResponse(serializer.data, safe=False)
+#     elif request.method == "DELETE":
+#         data = JSONParser().parse(request)
+#         user_data = Testresult.objects.filter(userid=data['userid'])
+#         user_data.delete()
+#         return HttpResponse(status=200)
 
 

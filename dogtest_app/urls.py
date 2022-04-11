@@ -8,9 +8,9 @@ urlpatterns = [
     path('dogimage/', views.imageupload, name='dogimage'),
     path('testresult/',views.testresult, name='testresult'),
 
-    # 테스트 확인용 ( 조회, 삭제 ) 
-    path('users/', views.user_list), 
-    path('testresults/', views.testresult_list),
+    # # 테스트 확인용 ( 조회, 삭제 ) 
+    # path('users/', views.user_list), 
+    # path('testresults/', views.testresult_list),
 
     
 ]

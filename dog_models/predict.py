@@ -35,10 +35,12 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
     test = (np.expand_dims(dst, 0))
 
     predict_prob = model.predict(test)
+
+
     if round(predict_prob[0][0],2) >= 0.5 :
-        return "당신의 강아지는 비만입니다"
+        return { 'obesity_rate' : round(predict_prob[0][0],2), 'text': "당신의 강아지는 비만입니다" }
     else :
-        return "당신의 강아지는 정상입니다"
+        return { 'obesity_rate' : round(predict_prob[0][0],2), 'text': "당신의 강아지는 정상입니다" }
 
 # # predict.py 안에서 TEST  
 # import base64, io, cv2
@@ -50,7 +52,7 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 #     image = Image.open(dataBytesIO)
 #     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-# img_path = '비만.jpg'
+# img_path = 'Image_check/check/test2.jpg'
 # img_name = 'MMMM.jpg'
 
 # with open(img_path, 'rb') as img:
@@ -139,7 +141,15 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
     ## 전처리 된 이미지 파일 삭제
     os.remove(f'{new_path}/gh{img_name}')
 
-    return f'당신의 강아지는 {class_names[preds[0]]}입니다!'
+    ## 비만일 확률
+    probabilities = torch.nn.functional.softmax(outputs[0], dim=0)
+
+    obesity_rate = int(round(probabilities[0].item() * 100, 0))
+
+    if class_names[preds[0]] == '비만':
+        return { 'obesity_rate' : obesity_rate, 'text': "당신의 강아지는 비만입니다" }
+    else :
+        return { 'obesity_rate' : obesity_rate, 'text': "당신의 강아지는 정상입니다" }
 
 # ## predict.py 안에서 TEST2  
 # import base64, io, cv2
