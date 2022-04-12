@@ -43,7 +43,7 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
         return result
     else :
         result = {'result':'정상', 'accuracy' : accuracy, 'text': "당신의 강아지는 정상입니다" }
-        return result 
+        return result  
 
 # # predict.py 안에서 TEST  
 # import base64, io, cv2
