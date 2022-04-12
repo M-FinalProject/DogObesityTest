@@ -14,7 +14,7 @@ from rest_framework.parsers import JSONParser
 from argon2 import PasswordHasher
 
 from .models import Serviceuser, Testresult
-from .serializers import ServiceuserSerializer, TestresultSerializer, ResultSerializer
+from .serializers import ServiceuserSerializer, TestresultSerializer #, ResultSerializer
 from dog_models.predict import img_predict_keras, img_predict_torch, dog_check
 from dogtest.settings import MEDIA_URL
 

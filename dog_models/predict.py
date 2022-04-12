@@ -38,10 +38,10 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 
 
     if round(predict_prob[0][0],2) >= 0.5 :
-        result = {'result':'비만', 'obesity_rate' : int(round(predict_prob[0][0],2) * 100), 'text': "당신의 강아지는 비만입니다" }
+        result = {'result':'비만', 'obesity_rate' : round(predict_prob[0][0],3) * 100, 'text': "당신의 강아지는 비만입니다" }
         return result
     else :
-        result = {'result':'정상', 'obesity_rate' : int(round(predict_prob[0][0],2) * 100), 'text': "당신의 강아지는 정상입니다" }
+        result = {'result':'정상', 'obesity_rate' : round(predict_prob[0][0],3) * 100, 'text': "당신의 강아지는 정상입니다" }
         return result
 
 # # predict.py 안에서 TEST  
@@ -54,8 +54,8 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 #     image = Image.open(dataBytesIO)
 #     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-# img_path = 'Image_check/check/test2.jpg'
-# img_name = 'MMMM.jpg'
+# img_path = 'Image_check/check/m_fat.jpg'
+# img_name = 'm_fat.jpg'
 
 # with open(img_path, 'rb') as img:
 #     base64_str = base64.b64encode(img.read())
@@ -156,6 +156,7 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
         result = {'result':'비만', 'obesity_rate' : obesity_rate, 'text': "당신의 강아지는 비만입니다" }
         return result
 
+
 # ## predict.py 안에서 TEST2  
 # import base64, io, cv2
 # import numpy as np
@@ -167,8 +168,8 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
 #     image = Image.open(dataBytesIO)
 #     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-# img_path = 'Image_check/check/fat_test.jpg'
-# img_name = 'fat_test.jpg'
+# img_path = 'Image_check/check/rrrr.jpg'
+# img_name = 'rrrr.jpg'
 
 # with open(img_path, 'rb') as img:
 #     base64_str = base64.b64encode(img.read())
