@@ -47,8 +47,8 @@ def login( request ):
         data = JSONParser().parse(request)
         data = data['user']
         input_id,  input_pw = data['userid'],  data['password']
-        user_data = Serviceuser.objects.get(userid=input_id)
         try :  # DB에 저장된 id와 pw가 입력한 id와 pw가 일치한다면 status = 200
+            user_data = Serviceuser.objects.get(userid=input_id)
             if user_data.userid == input_id and PasswordHasher().verify(user_data.password, input_pw) :
                 # return render( request, 'dogimage', status = 200)   # 로그인 성공 → dogimage page로
                 return HttpResponse( status=200 )
