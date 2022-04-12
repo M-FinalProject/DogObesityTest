@@ -122,6 +122,7 @@ def testresult(request):
         img_name = data['image']
         try : 
             queryset = Testresult.objects.filter(image=img_name)    
+            queryset = queryset[len(queryset)-1]
             queryset.like = 1
             queryset.save()
             
