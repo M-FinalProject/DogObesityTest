@@ -14,8 +14,8 @@ from torchvision import transforms
 ####### 모델 keras CNN - 말티즈, 비글, 치와와    
 def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
     model_path = 'dog_models'
-    old_path = f'Image_check/check'
-    new_path = f'Image/{dog_breed}/saveimg'
+    old_path = f'Image_check'
+    new_path = f'Image/{dog_breed}'
 
     shutil.move(f'{old_path}/{img_name}', f'{new_path}/{img_name}')
 
@@ -56,8 +56,8 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
 #     image = Image.open(dataBytesIO)
 #     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-# img_path = 'Image_check/check/m_fat.jpg'
-# img_name = 'm_fat.jpg'
+# img_path = 'Image_check/one.jpg'
+# img_name = 'one.jpg'
 
 # with open(img_path, 'rb') as img:
 #     base64_str = base64.b64encode(img.read())
@@ -87,8 +87,8 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
 
     model_path = 'dog_models'
 
-    old_path = f'Image_check/check'
-    new_path = f'Image/{dog_breed}/saveimg'
+    old_path = f'Image_check'
+    new_path = f'Image/{dog_breed}'
 
     shutil.move(f'{old_path}/{img_name}', f'{new_path}/{img_name}')
 
@@ -171,7 +171,7 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
 #     image = Image.open(dataBytesIO)
 #     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-# img_path = 'Image_check/check/three.jpg'
+# img_path = 'Image_check/three.jpg'
 # img_name = 'three.jpg'
 
 # with open(img_path, 'rb') as img:
@@ -179,7 +179,7 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
 
 # testresult = img_predict_torch('Retriever','ret_set5_B_9_1.pth',stringToRGB(base64_str), img_name) 
 # print(testresult['text'])
-# print(testresult['obesity_rate'])
+# print(testresult['accuracy'])
 
 
 
@@ -190,7 +190,7 @@ def dog_check(decode_img, img_name):
     # model = torch.load('dog_models/precondition_set1_B20_E49.pth', map_location='cpu')
     model = torch.load('dog_models/precondition_set1_B20_E49.pth', map_location='cpu')
 
-    img_path = 'Image_check/check'
+    img_path = 'Image_check'
 
     cv2.imwrite(f'{img_path}/{img_name}', decode_img)
 
@@ -225,7 +225,7 @@ def dog_check(decode_img, img_name):
 #     image = Image.open(dataBytesIO)
 #     return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-# img_path = 'test3.jpg'
+# img_path = 'three.jpg'
 # img_name = 'cat.jpg'
 
 # with open(img_path, 'rb') as img:
