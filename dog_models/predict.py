@@ -95,32 +95,24 @@ def img_predict_torch(dog_breed, selected_model, decode_img, img_name):
     # 모델 업로드 
     model = torch.load(f'{model_path}/{selected_model}', map_location='cpu')
     
-    if dog_breed == 'Retriever' : 
-        ## 이미지 선명하게
-        kernel = np.array([[0, -1, 0],
+    kernel = np.array([[0, -1, 0],
                         [-1, 5,-1],
                         [0, -1, 0]])
-        image_sharp = cv2.filter2D(decode_img, -1, kernel)
+
+    if dog_breed == 'Retriever' : 
+        image_sharp = cv2.filter2D(decode_img, -1, kernel)  ## 이미지 선명하게
         image_tmp = image_sharp
 
     elif dog_breed == 'Dachshund':
         trim_img = trim(decode_img)
         image_yuv = cv2.cvtColor(trim_img, cv2.COLOR_BGR2YUV)
-        image_yuv[:, :, 0] = cv2.equalizeHist(image_yuv[:, :, 0])
-        kernel = np.array([[0, -1, 0],
-                        [-1, 5,-1],
-                        [0, -1, 0]])
-        image_sharp = cv2.filter2D(image_yuv, -1, kernel)
+        image_yuv[:, :, 0] = cv2.equalizeHist(image_yuv[:, :, 0])  ## yuv 적용
+        image_sharp = cv2.filter2D(image_yuv, -1, kernel)  ## 이미지 선명하게
         image_tmp = image_sharp
 
     elif dog_breed == 'Welsh Corgi':
-        ## 이미지 선명하게
-        kernel = np.array([[0, -1, 0],
-                        [-1, 5,-1],
-                        [0, -1, 0]])
-        image_sharp = cv2.filter2D(decode_img, -1, kernel)
-        sobelx = cv2.Sobel(image_sharp, cv2.CV_8U, 1, 0, ksize=3)
-        
+        image_sharp = cv2.filter2D(decode_img, -1, kernel)  ## 이미지 선명하게
+        sobelx = cv2.Sobel(image_sharp, cv2.CV_8U, 1, 0, ksize=3)  
         image_tmp = sobelx
 
     cv2.imwrite(f'{new_path}/gh{img_name}', image_tmp)
