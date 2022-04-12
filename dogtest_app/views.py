@@ -132,7 +132,7 @@ def testresult(request):
             count_data = { 'total_count' : len(total_count) ,'like_count' : len(like_count) }
             return JsonResponse(count_data, status=200)
         except :
-            return HttpResponse( status = 400 ) 
+            return HttpResponse( status = 400 )
 
 
 
