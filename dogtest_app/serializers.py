@@ -3,7 +3,7 @@ from .models import Serviceuser, Testresult
 
 class ServiceuserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Serviceuser
+        model = Serviceuser 
         # fields = ['user_id','user_pw','created']
         fields = ['userid','password','created']
 

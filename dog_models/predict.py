@@ -5,7 +5,7 @@ from PIL import Image
 from re import X
 
 # tensorflow
-from tensorflow.keras.models import load_model
+from tensorflow.keras.models import load_model 
 # Pytorch
 import torch
 from torchvision import transforms

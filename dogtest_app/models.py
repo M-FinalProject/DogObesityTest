@@ -5,7 +5,7 @@ from django import forms
 ### 코드로 테스트하는 방법  유니테스트라던가..(구현 후 시간이 남으면 )
 
 # Create your models here.
-class Serviceuser(models.Model) :
+class Serviceuser(models.Model) : 
     # user_id = models.CharField(max_length=15, primary_key=True)
     # user_pw = models.CharField(max_length=225)
     userid = models.CharField(max_length=20, primary_key=True)

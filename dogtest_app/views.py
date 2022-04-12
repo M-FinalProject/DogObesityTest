@@ -25,7 +25,7 @@ def signup( request ):
     # POST요청이 들어오면 ID와 생성    
     if request.method == "POST" :
         # print(request)
-        data = JSONParser().parse(request)
+        data = JSONParser().parse(request) 
         data = data['user']
         desired_id = data['userid']
         try : 
