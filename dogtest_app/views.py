@@ -127,8 +127,8 @@ def testresult(request):
             
             total_count = Testresult.objects.all()
             like_count = Testresult.objects.filter(like=1)
-            like_count = { 'total_count' : len(total_count) ,'like_count' : len(like_count) }
-            return JsonResponse(like_count, status=200)
+            count_data = { 'total_count' : len(total_count) ,'like_count' : len(like_count) }
+            return JsonResponse(count_data, status=200)
         except :
             return HttpResponse( status = 400 ) 
 
