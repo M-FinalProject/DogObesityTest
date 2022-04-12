@@ -21,7 +21,7 @@ class Testresult(models.Model) :
     image = models.CharField(max_length=255,blank=True)  # 이미지명 저장
     dog_breed = models.CharField(max_length=100)
     testresult = models.CharField(max_length=255)
-    obesity_rate = models.CharField(max_length=10, blank=True)
+    accuracy = models.CharField(max_length=10, blank=True)
     like = models.IntegerField(blank=True,null=True)
     created = models.DateTimeField(auto_now_add=True)
     class Meta:

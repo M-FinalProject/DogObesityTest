@@ -102,20 +102,14 @@ def imageupload( request ):
             'image' : img_name,
             'dog_breed' : dog_breed, 
             'testresult' : testresult['result'],
-            'obesity_rate' : testresult['obesity_rate'],
+            'accuracy' : testresult['accuracy'],
             'like' : 0 ,
         } 
 
         serializer = TestresultSerializer(data=testresult_data)
         if serializer.is_valid():
             serializer.save()
-            
-            user_testlist= Testresult.objects.filter(userid=userid)
-            recent_data = user_testlist[len(user_testlist)-1]
-
-            ## 가장 최근 테스트의 비만율, 현재 테스트의 비만율과 text
-            response_data = {'pre_rate' : recent_data.obesity_rate, 'cur_rate':testresult['obesity_rate'], 'cur_result':testresult['text']} 
-            
+            response_data = {'image': img_name, 'accuracy':testresult['accuracy'], 'text':testresult['text']} 
             return JsonResponse(response_data, status=201)
         else : 
             return HttpResponse( status= 400 )  

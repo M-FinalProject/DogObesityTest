@@ -14,9 +14,3 @@ class TestresultSerializer(serializers.ModelSerializer):
         # fields = ['userid','image_path','dog_breed','test_result','created'],
         fields = ['userid','image','dog_breed','testresult','obesity_rate', 'like','created']
 
-
-# ## 모델 예측 결과 반환 시
-# class ResultSerializer(serializers.Serializer):
-#     pre_rate = serializers.IntegerField()
-#     cur_rate =  serializers.IntegerField()
-#     cur_result = serializers.CharField(max_length = 20)
