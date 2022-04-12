@@ -12,5 +12,5 @@ class TestresultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Testresult
         # fields = ['userid','image_path','dog_breed','test_result','created'],
-        fields = ['userid','image','dog_breed','testresult','obesity_rate', 'like','created']
+        fields = ['userid','image','dog_breed','testresult','accuracy', 'like','created']
 
