@@ -39,7 +39,7 @@ def img_predict_keras(dog_breed, selected_model, decode_img, img_name):
     accuracy = int(round(predict_prob[0][0],2) * 100) 
     # print( round(predict_prob[0][0],2) * 100 )
 
-    if round(predict_prob[0][0],2) <= 0.5 :
+    if round(predict_prob[0][0],2) < 0.5 :
         result = {'result':'정상', 'accuracy' : accuracy, 'text': "당신의 강아지는 정상입니다" }
         return result
     else :
