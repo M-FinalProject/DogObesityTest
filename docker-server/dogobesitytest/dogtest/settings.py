@@ -52,6 +52,8 @@ INSTALLED_APPS = [
 INSTALLED_APPS += [
     'rest_framework',
     'dogtest_app',
+
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -64,6 +66,9 @@ MEDIA_URL = "/Image/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "Image").replace('\\',"/")
 
 MIDDLEWARE = [
+    ## cors 에러 관련 코드 추가 
+    'corsheaders.middleware.CorsMiddleware',
+    ## 기존
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,6 +77,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    'http://35.76.37.170',
+    'http://35.76.37.170:8980',  
+
+)
 
 ROOT_URLCONF = 'dogtest.urls'
 
